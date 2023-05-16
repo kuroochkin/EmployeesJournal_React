@@ -14,7 +14,7 @@ class App extends Component{
         this.state = {
              data: [
                 {name: 'Самофеева Анна', salary: 50000, increase: true, id: 1},
-                {name: 'Курочкин Владислав', salary: 90000, increase: false, id: 2},
+                {name: 'Курочкин Владислав', salary: 100000, increase: false, id: 2},
             ]
         }
         this.maxId = 3;
