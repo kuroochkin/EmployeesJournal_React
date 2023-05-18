@@ -13,10 +13,11 @@ class App extends Component{
         super(props);
         this.state = {
              data: [
-                {name: 'Самофеева Анна', salary: 50000, increase: true, id: 1},
-                {name: 'Курочкин Владислав', salary: 100000, increase: false, id: 2},
+                {name: 'Самофеева Анна', salary: 50000, increase: true, promotion: true, id: 1},
+                {name: 'Курочкин Владислав', salary: 100000, increase: false, promotion: false, id: 2},
             ],
-            term: ''
+            term: '',
+            filter: ''
         }
         this.maxId = 3;
     }
@@ -74,11 +75,26 @@ class App extends Component{
         this.setState({term});
     }
 
+    filterEmp = (items, filter) => {
+        switch(filter) {
+            case 'promotion':
+                return items.filter(item => item.promotion);
+            case 'moreThen50000':
+                return items.filter(item => item.salary > 50000);
+            default:
+                return items;
+        }
+    }
+
+    onFilterSelect = (filter) => {
+        this.setState({filter});
+    }
+
    render() {
-    const {data, term} = this.state;
+    const {data, term, filter} = this.state;
     const employees = this.state.data.length;
     const increased = this.state.data.filter(item => item.increase).length;
-    const visibleData = this.searchEmp(data, term);
+    const visibleData = this.filterEmp(this.searchEmp(data, term), filter);
 
     return (
         <div className="app"> 
@@ -90,7 +106,9 @@ class App extends Component{
             <div className="search-panel">
                 <SearchPanel
                 onUpdateSearch={this.onUpdateSearch}/>
-                <AppFilter/>
+                <AppFilter
+                filter={filter}
+                onFilterSelect={this.onFilterSelect}/>
             </div>
 
             <EmployeesList 
